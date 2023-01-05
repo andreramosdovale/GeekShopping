@@ -1,4 +1,4 @@
-﻿using GeekShoping.ProductApi.Data.ValueObject;
+﻿using GeekShoping.ProductApi.Data.ProductDTO;
 
 namespace GeekShoping.ProductApi.Repository;
 
@@ -8,5 +8,5 @@ public interface IProductRepository
     Task<ProductDTO> FindById(long productId);
     Task<ProductDTO> Create(ProductDTO product);
     Task<ProductDTO> Update(ProductDTO product);
-    Task<ProductDTO> DeleteById(long productId);
+    Task<bool> DeleteById(long productId);
 }

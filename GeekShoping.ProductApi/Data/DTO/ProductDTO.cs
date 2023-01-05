@@ -1,5 +1,4 @@
-﻿namespace GeekShoping.ProductApi.Data.ValueObject;
-
+﻿namespace GeekShoping.ProductApi.Data.ProductDTO;
 public class ProductDTO
 {
     public long id { get; set; }

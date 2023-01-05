@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using GeekShoping.ProductApi.Data.ValueObject;
+using GeekShoping.ProductApi.Data.ProductDTO;
 using GeekShoping.ProductApi.Model;
 using GeekShoping.ProductApi.Model.Context;
 using Microsoft.EntityFrameworkCore;
@@ -31,18 +31,41 @@ public class ProductRepository : IProductRepository
         return _mapper.Map<ProductDTO>(product);
     }
 
-    public async Task<ProductDTO> Create(ProductDTO product)
+    public async Task<ProductDTO> Create(ProductDTO productDTO)
     {
-        throw new NotImplementedException();
+        Product newProduct = _mapper.Map<Product>(productDTO);
+        _context.Products.Add(newProduct);
+        await _context.SaveChangesAsync();
+
+        return _mapper.Map<ProductDTO>(newProduct);
     }
 
-    public async Task<ProductDTO> Update(ProductDTO product)
+    public async Task<ProductDTO> Update(ProductDTO productDTO)
     {
-        throw new NotImplementedException();
+        Product updatedProduct = _mapper.Map<Product>(productDTO);
+        _context.Products.Update(updatedProduct);
+        await _context.SaveChangesAsync();
+
+        return _mapper.Map<ProductDTO>(updatedProduct);
     }
 
-    public async Task<ProductDTO> DeleteById(long productId)
+    public async Task<bool> DeleteById(long productId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            Product product = await _context.Products.Where(p => p.id == productId).FirstOrDefaultAsync();
+            
+            if (product == null) return false;
+
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+        catch (Exception)
+        {
+
+            return false;
+        }
     }
 }
